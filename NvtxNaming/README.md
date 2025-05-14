@@ -10,7 +10,7 @@ $ compute-sanitizer --nvtx=yes --leak-check=full --destroy-on-device-error=kerne
 =========
 ========= LEAK SUMMARY: 1 bytes leaked in 1 allocations
 ========= ERROR SUMMARY: 1 error
-$ compute-sanitizer --nvtx=yes --tool=initcheck --track-unused-memory=yes --destroy-on-device-error=kernel --show-backtrace=no ./NvtxNaming
+$ compute-sanitizer --nvtx=yes --tool=initcheck --track-unused-memory --destroy-on-device-error=kernel --show-backtrace=no ./NvtxNaming
 ========= COMPUTE-SANITIZER
 =========  Unused memory in allocation 0x7efc4d000000 called My allocation of size 1
 =========     Not written any memory.
