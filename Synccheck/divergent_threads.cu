@@ -36,6 +36,12 @@ static constexpr int Size = (NumThreads * DataBlocks) - 16;
 
 __shared__ int smem[NumThreads];
 
+__device__ __noinline__
+void outlineSync()
+{
+    __syncthreads();
+}
+
 __global__
 void myKernel(int *data_in, int *sum_out)
 {
@@ -51,11 +57,16 @@ void myKernel(int *data_in, int *sum_out)
         if (offset < Size)
         {
             smem[tx] += data_in[offset];
-            __syncthreads();
+            outlineSync();
+        }
+        else
+        {
+            // We still need to wait before we continue
+            outlineSync();
         }
     }
 
-    if (tx == 0)
+    if (tx == blockDim.x - 1)
     {
         *sum_out = 0;
         for (int i = 0; i < NumThreads; ++i)
